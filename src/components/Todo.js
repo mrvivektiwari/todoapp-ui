@@ -3,7 +3,7 @@ import { useState } from "react";
 
 function Todo() {
   const [taskInput, setTaskInput] = useState("");
-  const [tasks, setTasks] = useState(["s"]);
+  const [tasks, setTasks] = useState([]);
   const [isNewTask, setIsNewTask] = useState(true);
 
   const handleChange = (e) => {
@@ -37,15 +37,15 @@ function Todo() {
       </button>
       <ul id="todolist">
         {tasks.map((task) => (
-          <>
-            <li key={task}>{task}</li>
+          <li key={task}>
+            {task}
             <button className="editButton" onClick={() => editTask(task)}>
               Edit
             </button>
             <button className="deleteButton" onClick={() => removeTask(task)}>
               Remove
             </button>
-          </>
+          </li>
         ))}
       </ul>
     </div>
