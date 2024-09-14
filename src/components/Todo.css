@@ -1,0 +1,38 @@
+h1 {
+  background: black;
+  color: white;
+  padding: 10px;
+  font-size: larger;
+  font-family: monospace;
+}
+input {
+  margin: 10px;
+  padding: 8px;
+  width: 400px;
+  font-size: larger;
+  font-family: monospace;
+}
+button {
+  padding: 8px;
+  margin: 10px;
+  width: 100px;
+  color: white;
+  background: darkgreen;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+}
+.editButton {
+  color: black;
+  background: darkgrey;
+  width: 80px;
+}
+.deleteButton {
+  color: white;
+  background: darkred;
+  width: 80px;
+}
+li {
+  font-size: larger;
+  font-family: monospace;
+}
