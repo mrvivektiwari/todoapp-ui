@@ -39,10 +39,18 @@ function Todo() {
         {tasks.map((task) => (
           <li key={task}>
             {task}
-            <button className="editButton" onClick={() => editTask(task)}>
+            <button
+              key={task + "e"}
+              className="editButton"
+              onClick={() => editTask(task)}
+            >
               Edit
             </button>
-            <button className="deleteButton" onClick={() => removeTask(task)}>
+            <button
+              key={task + "d"}
+              className="deleteButton"
+              onClick={() => removeTask(task)}
+            >
               Remove
             </button>
           </li>
