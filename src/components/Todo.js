@@ -4,16 +4,28 @@ import { useState } from "react";
 function Todo() {
   const [taskInput, setTaskInput] = useState("");
   const [tasks, setTasks] = useState(["s"]);
+  const [isNewTask, setIsNewTask] = useState(true);
 
   const handleChange = (e) => {
     setTaskInput(e.target.value);
   };
 
   const addTask = () => {
+    setIsNewTask(true);
     if (taskInput) {
       setTasks([...tasks, taskInput]);
       setTaskInput("");
     }
+  };
+
+  const editTask = (task) => {
+    setIsNewTask(false);
+    setTaskInput(task);
+    setTasks(tasks.filter((t) => t !== task));
+  };
+
+  const removeTask = (task) => {
+    setTasks(tasks.filter((t) => t !== task));
   };
 
   return (
@@ -21,16 +33,16 @@ function Todo() {
       <h1>Todo Application</h1>
       <input onChange={handleChange} value={taskInput} id="task" name="task" />
       <button id="taskButton" onClick={addTask}>
-        Add
+        {isNewTask ? "Add" : "Update"}
       </button>
       <ul id="todolist">
         {tasks.map((task) => (
           <>
             <li key={task}>{task}</li>
-            <button className="editButton" onClick="editTask()">
+            <button className="editButton" onClick={() => editTask(task)}>
               Edit
             </button>
-            <button className="deleteButton" onClick="removeTask()">
+            <button className="deleteButton" onClick={() => removeTask(task)}>
               Remove
             </button>
           </>
