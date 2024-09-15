@@ -1,10 +1,22 @@
 import "./Todo.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 function Todo() {
   const [taskInput, setTaskInput] = useState("");
   const [tasks, setTasks] = useState([]);
   const [isNewTask, setIsNewTask] = useState(true);
+  const [currentTask, setCurrentTask] = useState({});
+
+  const client = axios.create({
+    baseURL: "http://localhost:4000",
+  });
+
+  useEffect(() => {
+    client.get("/todos").then((response) => {
+      setTasks(response.data.data);
+    });
+  }, []);
 
   const handleChange = (e) => {
     setTaskInput(e.target.value);
@@ -13,32 +25,44 @@ function Todo() {
   const addTask = () => {
     setIsNewTask(true);
     if (taskInput) {
-      setTasks([
-        ...tasks,
-        {
-          id: Math.floor(Math.random() * (10000 - 100 + 1) + 100),
+      client
+        .post("/todo", {
           task: taskInput,
-        },
-      ]);
+        })
+        .then((response) => {
+          setTasks(response.data.data);
+        });
       setTaskInput("");
     }
   };
 
-  const editTask = (task, id) => {
+  const editTask = (todo) => {
     setIsNewTask(false);
-    setTaskInput(task);
-    setTasks(tasks.filter((t) => t.id !== id));
+    setTaskInput(todo.task);
+    setCurrentTask(todo);
+  };
+
+  const updateTask = () => {
+    client
+      .put("/todo/" + currentTask.id, { task: taskInput })
+      .then((response) => {
+        setTasks(response.data.data);
+      });
+    setCurrentTask({});
+    setTaskInput("");
   };
 
   const removeTask = (id) => {
-    setTasks(tasks.filter((t) => t.id !== id));
+    client.delete("/todo/" + id).then((response) => {
+      setTasks(response.data.data);
+    });
   };
 
   return (
     <div className="App">
       <h1>Todo Application</h1>
       <input onChange={handleChange} value={taskInput} id="task" name="task" />
-      <button id="taskButton" onClick={addTask}>
+      <button id="taskButton" onClick={isNewTask ? addTask : updateTask}>
         {isNewTask ? "Add" : "Update"}
       </button>
       <ul id="todolist">
@@ -48,7 +72,7 @@ function Todo() {
             <button
               key={todo.id + "e"}
               className="editButton"
-              onClick={() => editTask(todo.task, todo.id)}
+              onClick={() => editTask(todo)}
             >
               Edit
             </button>
