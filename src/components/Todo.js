@@ -12,10 +12,14 @@ function Todo() {
     baseURL: "http://localhost:4000",
   });
 
-  useEffect(() => {
+  const refreshTask = () => {
     client.get("/todos").then((response) => {
       setTasks(response.data.data);
     });
+  };
+
+  useEffect(() => {
+    refreshTask();
   }, []);
 
   const handleChange = (e) => {
@@ -30,7 +34,7 @@ function Todo() {
           task: taskInput,
         })
         .then((response) => {
-          setTasks(response.data.data);
+          refreshTask();
         });
       setTaskInput("");
     }
@@ -46,15 +50,16 @@ function Todo() {
     client
       .put("/todo/" + currentTask.id, { task: taskInput })
       .then((response) => {
-        setTasks(response.data.data);
+        refreshTask();
       });
     setCurrentTask({});
     setTaskInput("");
+    setIsNewTask(true);
   };
 
   const removeTask = (id) => {
     client.delete("/todo/" + id).then((response) => {
-      setTasks(response.data.data);
+      refreshTask();
     });
   };
 
