@@ -13,19 +13,25 @@ function Todo() {
   const addTask = () => {
     setIsNewTask(true);
     if (taskInput) {
-      setTasks([...tasks, taskInput]);
+      setTasks([
+        ...tasks,
+        {
+          id: Math.floor(Math.random() * (10000 - 100 + 1) + 100),
+          task: taskInput,
+        },
+      ]);
       setTaskInput("");
     }
   };
 
-  const editTask = (task) => {
+  const editTask = (task, id) => {
     setIsNewTask(false);
     setTaskInput(task);
-    setTasks(tasks.filter((t) => t !== task));
+    setTasks(tasks.filter((t) => t.id !== id));
   };
 
-  const removeTask = (task) => {
-    setTasks(tasks.filter((t) => t !== task));
+  const removeTask = (id) => {
+    setTasks(tasks.filter((t) => t.id !== id));
   };
 
   return (
@@ -36,20 +42,20 @@ function Todo() {
         {isNewTask ? "Add" : "Update"}
       </button>
       <ul id="todolist">
-        {tasks.map((task) => (
-          <li key={task}>
-            {task}
+        {tasks.map((todo) => (
+          <li key={todo.id}>
+            {todo.task}
             <button
-              key={task + "e"}
+              key={todo.id + "e"}
               className="editButton"
-              onClick={() => editTask(task)}
+              onClick={() => editTask(todo.task, todo.id)}
             >
               Edit
             </button>
             <button
-              key={task + "d"}
+              key={todo.id + "d"}
               className="deleteButton"
-              onClick={() => removeTask(task)}
+              onClick={() => removeTask(todo.id)}
             >
               Remove
             </button>
