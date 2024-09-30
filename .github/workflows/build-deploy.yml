@@ -46,5 +46,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: vivekcs0114/todoapp-ui:v1.1
+          tags: vivekcs0114/todoapp-ui:v1.2
           platforms: linux/amd64,linux/arm64
