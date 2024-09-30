@@ -9,7 +9,7 @@ function Todo() {
   const [currentTask, setCurrentTask] = useState({});
 
   const client = axios.create({
-    baseURL: "http://todo-server.application-1.svc.cluster.local:4000",
+    baseURL: process.env.REACT_APP_API_URI,
   });
 
   const refreshTask = () => {
