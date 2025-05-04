@@ -13,7 +13,7 @@ function Todo() {
   });
 
   const refreshTask = () => {
-    client.get("/todos").then((response) => {
+    client.get("/api/todos").then((response) => {
       setTasks(response.data.data);
     });
   };
@@ -30,7 +30,7 @@ function Todo() {
     setIsNewTask(true);
     if (taskInput) {
       client
-        .post("/todo", {
+        .post("/api/todo", {
           task: taskInput,
         })
         .then((response) => {
@@ -48,7 +48,7 @@ function Todo() {
 
   const updateTask = () => {
     client
-      .put("/todo/" + currentTask.id, { task: taskInput })
+      .put("/api/todo/" + currentTask.id, { task: taskInput })
       .then((response) => {
         refreshTask();
       });
@@ -58,7 +58,7 @@ function Todo() {
   };
 
   const removeTask = (id) => {
-    client.delete("/todo/" + id).then((response) => {
+    client.delete("/api/todo/" + id).then((response) => {
       refreshTask();
     });
   };
