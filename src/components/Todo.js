@@ -20,7 +20,7 @@ function Todo() {
 
   useEffect(() => {
     refreshTask();
-  }, []);
+  }, [!refreshTask]);
 
   const handleChange = (e) => {
     setTaskInput(e.target.value);
