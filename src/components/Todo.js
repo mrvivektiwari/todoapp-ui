@@ -12,12 +12,13 @@ function Todo() {
     baseURL: process.env.REACT_APP_API_URI,
   });
 
-  // eslint-disable-next-line
+  /* eslint-disable react-hooks/exhaustive-deps */
   const refreshTask = useCallback(() => {
     client.get("/api/todos").then((response) => {
       setTasks(response.data.data);
     });
   }, []);
+  /* eslint-enable react-hooks/exhaustive-deps */
   
   useEffect(() => {
     refreshTask();
