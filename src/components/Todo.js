@@ -1,5 +1,5 @@
 import "./Todo.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
 function Todo() {
@@ -12,15 +12,16 @@ function Todo() {
     baseURL: process.env.REACT_APP_API_URI,
   });
 
-  const refreshTask = () => {
+  // eslint-disable-next-line
+  const refreshTask = useCallback(() => {
     client.get("/api/todos").then((response) => {
       setTasks(response.data.data);
     });
-  };
-
+  }, []);
+  
   useEffect(() => {
     refreshTask();
-  }, [!refreshTask]);
+  }, [refreshTask]);
 
   const handleChange = (e) => {
     setTaskInput(e.target.value);
